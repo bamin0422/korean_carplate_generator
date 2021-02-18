@@ -62,7 +62,7 @@ class ImageGenerator:
             self.char_list.append(file[0:-4])
 
         
-    def Type_1(self, num, save=False):
+    def ver2006(self, num, save=False):
         number = [cv2.resize(number, (28, 42)) for number in self.Number]
         char = [cv2.resize(char1, (30, 42)) for char1 in self.Char1]
 
@@ -127,7 +127,79 @@ class ImageGenerator:
                 cv2.imshow(label, background)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
+    
+    def ver2019(self, num, save=False):
+        number = [cv2.resize(number, (28, 42)) for number in self.Number]
+        char = [cv2.resize(char1, (30, 42)) for char1 in self.Char1]
 
+        for i, Iter in enumerate(range(num)):
+            Plate = cv2.resize(self.plate, (260, 55))
+            b_width ,b_height = 300, 600
+            random_R, random_G, random_B = random.randint(0,255), random.randint(0,255), random.randint(0,255)
+            background = np.zeros((b_width, b_height, 3), np.uint8)
+            cv2.rectangle(background, (0, 0), (b_height, b_width), (random_R, random_G, random_B), -1)
+
+            label = "Z"
+            # row -> y , col -> x
+            row, col = 7, 12  # row + 83, col + 56
+           
+            # number 1
+            rand_int = random.randint(0, 9)
+            label += self.number_list[rand_int]
+            Plate[row:row + 42, col:col + 28, :] = number[rand_int]
+            col += 28
+
+            # number 2
+            rand_int = random.randint(0, 9)
+            label += self.number_list[rand_int]
+            Plate[row:row + 42, col:col + 28, :] = number[rand_int]
+            col += 28
+
+            # number 3
+            rand_int = random.randint(0, 9)
+            label += self.number_list[rand_int]
+            Plate[row:row + 42, col:col + 28, :] = number[rand_int]
+            col += 28
+
+            # hangeul
+            label += self.char_list[i%37]
+            Plate[row:row + 42, col:col + 30, :] = char[i%37]
+            col += (20 + 18)
+
+            # number 4
+            rand_int = random.randint(0, 9)
+            label += self.number_list[rand_int]
+            Plate[row:row + 42, col:col + 28, :] = number[rand_int]
+            col += 28
+
+            # number 5
+            rand_int = random.randint(0, 9)
+            label += self.number_list[rand_int]
+            Plate[row:row + 42, col:col + 28, :] = number[rand_int]
+            col += 28
+
+            # number 6
+            rand_int = random.randint(0, 9)
+            label += self.number_list[rand_int]
+            Plate[row:row + 42, col:col + 28, :] = number[rand_int]
+            col += 28
+
+            # number 7
+            rand_int = random.randint(0, 9)
+            label += self.number_list[rand_int]
+            Plate[row:row + 42, col:col + 28, :] = number[rand_int]
+            col += 28
+
+            s_width, s_height = int((400-110)/2), int((800-520)/2)
+            background[s_width:55 + s_width, s_height:260 + s_height, :] = Plate
+            background = image_augmentation(background)
+
+            if save:
+                cv2.imwrite(self.save_path + label + ".jpg", background)
+            else:
+                cv2.imshow(label, background)
+                cv2.waitKey(0)
+                cv2.destroyAllWindows()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--img_dir", help="save image directory",
@@ -146,5 +218,7 @@ imgGenerator = ImageGenerator(img_dir)
 num_img = args.num
 Save = args.save
 
-imgGenerator.Type_1(num_img, save=Save)
-print("Type 1 finish")
+imgGenerator.ver2006(num_img, save=Save)
+print("ver2006 finish")
+imgGenerator.ver2019(num_img, save=Save)
+print("ver2019 finish")
