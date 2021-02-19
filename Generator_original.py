@@ -50,7 +50,7 @@ class ImageGenerator:
 
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
-            label = "Z"
+            label = "1_"
             # row -> y , col -> x
             row, col = 7, 18  # row + 83, col + 56
             # number 1
@@ -95,7 +95,8 @@ class ImageGenerator:
             col += 28
             Plate = random_bright(Plate)
             if save:
-                cv2.imwrite(self.save_path + label + ".jpg", Plate)
+                cv2.imwrite(self.save_path + "ver2006/" + label + ".jpg", Plate)
+                print("Generate original carplate 2006 : "+self.save_path + "ver2006/" + label + ".jpg")
             else:
                 cv2.imshow(label, Plate)
                 cv2.waitKey(0)
@@ -109,7 +110,7 @@ class ImageGenerator:
 
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
-            label = "Z"
+            label = "1_"
             # row -> y , col -> x
             row, col = 7, 12  # row + 83, col + 56
             # number 1
@@ -161,7 +162,8 @@ class ImageGenerator:
 
             Plate = random_bright(Plate)
             if save:
-                cv2.imwrite(self.save_path + label + ".jpg", Plate)
+                cv2.imwrite(self.save_path + "ver2019/" + label + ".jpg", Plate)
+                print("Generate original carplate 2019 : "+self.save_path + "ver2019/" + label + ".jpg")
             else:
                 cv2.imshow(label, Plate)
                 cv2.waitKey(0)
@@ -171,9 +173,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--img_dir", help="save image directory",
                     type=str, default="./DB/")
 parser.add_argument("-n", "--num", help="number of image",
-                    type=int, default=1)
+                    type=int, default=10000)
 parser.add_argument("-s", "--save", help="save or imshow",
-                    type=bool, default=False)
+                    type=bool, default=True)
 args = parser.parse_args()
 
 

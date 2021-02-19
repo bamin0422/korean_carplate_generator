@@ -73,7 +73,7 @@ class ImageGenerator:
             background = np.zeros((b_width, b_height, 3), np.uint8)
             cv2.rectangle(background, (0, 0), (b_height, b_width), (random_R, random_G, random_B), -1)
 
-            label = "Z"
+            label = "2_"
             # row -> y , col -> x
             row, col = 7, 18  # row + 83, col + 56
             # number 1
@@ -122,7 +122,8 @@ class ImageGenerator:
             background = image_augmentation(background)
 
             if save:
-                cv2.imwrite(self.save_path + label + ".jpg", background)
+                cv2.imwrite(self.save_path + "ver2006/" + label + ".jpg", background)
+                print("Generate perspective car plate 2006 : "+self.save_path + "ver2006/" + label + ".jpg")
             else:
                 cv2.imshow(label, background)
                 cv2.waitKey(0)
@@ -139,7 +140,7 @@ class ImageGenerator:
             background = np.zeros((b_width, b_height, 3), np.uint8)
             cv2.rectangle(background, (0, 0), (b_height, b_width), (random_R, random_G, random_B), -1)
 
-            label = "Z"
+            label = "2_"
             # row -> y , col -> x
             row, col = 7, 12  # row + 83, col + 56
            
@@ -195,7 +196,8 @@ class ImageGenerator:
             background = image_augmentation(background)
 
             if save:
-                cv2.imwrite(self.save_path + label + ".jpg", background)
+                cv2.imwrite(self.save_path + "ver2019/" + label + ".jpg", background)
+                print("Generate perspective car plate 2019 : "+self.save_path + "ver2019/" + label + ".jpg")
             else:
                 cv2.imshow(label, background)
                 cv2.waitKey(0)
@@ -203,11 +205,11 @@ class ImageGenerator:
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--img_dir", help="save image directory",
-                    type=str, default="DB/")
+                    type=str, default="./DB/")
 parser.add_argument("-n", "--num", help="number of image",
-                    type=int, default=1)
+                    type=int, default=10000)
 parser.add_argument("-s", "--save", help="save or imshow",
-                    type=bool, default=False)
+                    type=bool, default=True)
 args = parser.parse_args()
 
 
