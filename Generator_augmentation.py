@@ -47,8 +47,6 @@ class ImageGenerator:
         self.save_path = save_path
         # Plate
         self.plate = cv2.imread("plate.jpg")
-        self.plate2 = cv2.imread("plate_y.jpg")
-        self.plate3 = cv2.imread("plate_g.jpg")
 
         # loading Number ====================  white-one-line  ==========================
         file_path = "./num/"
