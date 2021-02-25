@@ -26,7 +26,7 @@ def image_augmentation(img, type2=False):
     img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
 
     # Blur
-    blur_value = random.randint(0,4) * 2 + 1
+    blur_value = random.randint(0, 4) * 2 + 1
     img = cv2.blur(img,(blur_value, blur_value))
     if type2:
         return img[130:280, 180:600, :]
@@ -65,7 +65,7 @@ class ImageGenerator:
     def ver2006(self, num, save=False):
         number = [cv2.resize(number, (28, 42)) for number in self.Number]
         char = [cv2.resize(char1, (30, 42)) for char1 in self.Char1]
-
+        cnt = 24000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
             b_width ,b_height = 300, 600
@@ -122,17 +122,18 @@ class ImageGenerator:
             background = image_augmentation(background)
 
             if save:
-                cv2.imwrite(self.save_path + "ver2006/" + label + ".jpg", background)
-                print("Generate perspective car plate 2006 : "+self.save_path + "ver2006/" + label + ".jpg")
+                cv2.imwrite(self.save_path + "ver2006/" + str(cnt) + ".jpg", background)
+                print("Generate perspective car plate 2006 : "+self.save_path + "ver2006/" + str(cnt) + ".jpg")
             else:
-                cv2.imshow(label, background)
+                cv2.imshow(cnt, background)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
+            cnt += 1
     
     def ver2019(self, num, save=False):
         number = [cv2.resize(number, (28, 42)) for number in self.Number]
         char = [cv2.resize(char1, (30, 42)) for char1 in self.Char1]
-
+        cnt = 24000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
             b_width ,b_height = 300, 600
@@ -191,23 +192,25 @@ class ImageGenerator:
             Plate[row:row + 42, col:col + 28, :] = number[rand_int]
             col += 28
 
-            s_width, s_height = int((400-110)/2), int((800-520)/2)
+            s_width, s_height = 260, 55
             background[s_width:55 + s_width, s_height:260 + s_height, :] = Plate
             background = image_augmentation(background)
 
             if save:
-                cv2.imwrite(self.save_path + "ver2019/" + label + ".jpg", background)
-                print("Generate perspective car plate 2019 : "+self.save_path + "ver2019/" + label + ".jpg")
+                cv2.imwrite(self.save_path + "ver2019/" + str(cnt) + ".jpg", background)
+                print("Generate perspective car plate 2019 : "+self.save_path + "ver2019/" + str(cnt) + ".jpg")
             else:
-                cv2.imshow(label, background)
+                cv2.imshow(str(cnt), background)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
+            
+            cnt += 1
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--img_dir", help="save image directory",
                     type=str, default="./DB/")
 parser.add_argument("-n", "--num", help="number of image",
-                    type=int, default=10000)
+                    type=int, default=6000)
 parser.add_argument("-s", "--save", help="save or imshow",
                     type=bool, default=True)
 args = parser.parse_args()

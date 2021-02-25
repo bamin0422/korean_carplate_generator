@@ -6,7 +6,7 @@ import numpy as np
 def random_bright(img):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
     img = np.array(img, dtype=np.float64)
-    random_bright = .5 + np.random.uniform()
+    random_bright = .9 + np.random.uniform()
     img[:, :, 2] = img[:, :, 2] * random_bright
     img[:, :, 2][img[:, :, 2] > 255] = 255
     img = np.array(img, dtype=np.uint8)
@@ -45,7 +45,7 @@ class ImageGenerator:
         number = [cv2.resize(number, (28, 42)) for number in self.Number]
         char = [cv2.resize(char1, (30, 42)) for char1 in self.Char1]
         Plate = cv2.resize(self.plate, (260, 55))
-
+        cnt = 0
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
             label = "1_"
@@ -93,19 +93,19 @@ class ImageGenerator:
             col += 28
             Plate = random_bright(Plate)
             if save:
-                cv2.imwrite(self.save_path + "ver2006/" + label + ".jpg", Plate)
-                print("Generate original carplate 2006 : "+self.save_path + "ver2006/" + label + ".jpg")
+                cv2.imwrite(self.save_path + "lastDB/" + str(cnt) + ".jpg", Plate)
+                print("Generate original carplate 2006 : "+self.save_path + "lastDB/" + str(cnt) + ".jpg")
             else:
-                cv2.imshow(label, Plate)
+                cv2.imshow(cnt, Plate)
                 cv2.waitKey(0)
-
                 cv2.destroyAllWindows()
+            cnt += 1
 
     def ver2019(self, num, save=False):
         number = [cv2.resize(number, (28, 42)) for number in self.Number]
         char = [cv2.resize(char1, (30, 42)) for char1 in self.Char1]
         Plate = cv2.resize(self.plate, (260, 55))
-
+        cnt = 12000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
             label = "1_"
@@ -160,18 +160,19 @@ class ImageGenerator:
 
             Plate = random_bright(Plate)
             if save:
-                cv2.imwrite(self.save_path + "ver2019/" + label + ".jpg", Plate)
-                print("Generate original carplate 2019 : "+self.save_path + "ver2019/" + label + ".jpg")
+                cv2.imwrite(self.save_path + "lastDB/" + str(cnt) + ".jpg", Plate)
+                print("Generate original carplate 2019 : "+self.save_path + "lastDB/" + str(cnt) + ".jpg")
             else:
-                cv2.imshow(label, Plate)
+                cv2.imshow(str(cnt), Plate)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
+            cnt += 1
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--img_dir", help="save image directory",
                     type=str, default="./DB/")
 parser.add_argument("-n", "--num", help="number of image",
-                    type=int, default=10000)
+                    type=int, default=12000)
 parser.add_argument("-s", "--save", help="save or imshow",
                     type=bool, default=True)
 args = parser.parse_args()
