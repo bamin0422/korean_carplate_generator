@@ -18,7 +18,7 @@ class ImageGenerator:
                 cv2.imwrite(self.save_path + "lastDB/" + str(cnt) + ".jpg", anything)
                 print("Generate opossite of car plate : "+self.save_path + "lastDB/" + str(cnt) + ".jpg")
             else:
-                cv2.imshow(label, anything)
+                cv2.imshow(cnt, anything)
                 cv2.waitKey(0)
                 cv2.destroyAllWindows()
             cnt += 1
@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--img_dir", help="save image directory",
                     type=str, default="./DB/")
 parser.add_argument("-n", "--num", help="number of image",
-                    type=int, default=6000)
+                    type=int, default=16000)
 parser.add_argument("-s", "--save", help="save or imshow",
                     type=bool, default=True)
 args = parser.parse_args()
