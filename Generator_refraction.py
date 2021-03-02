@@ -1,17 +1,30 @@
 import os, random
 import cv2, argparse
-import time
 import numpy as np
 
-def random_bright(img):
+def image_refraction(img, type2=False):
+        
+    # Brightness
     img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
     img = np.array(img, dtype=np.float64)
-    random_bright = .6 + np.random.uniform()
+    random_bright = .4 + np.random.uniform()
     img[:, :, 2] = img[:, :, 2] * random_bright
     img[:, :, 2][img[:, :, 2] > 255] = 255
     img = np.array(img, dtype=np.uint8)
     img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
+
+    # Blur
+    blur_value = random.randint(0, 3) * 2 + 1
+    img = cv2.blur(img,(blur_value, blur_value))
+
+    # refraction
+    w, h, _ = img.shape
+    w, h = np.indices((w, h), dtype=np.float32)
+    sinx = w + 1 * np.sin(h/1)
+    cosy = h + 1 * np.cos(w/1)
+    img=cv2.remap(img, cosy, sinx, cv2.INTER_LINEAR, None, cv2.BORDER_REPLICATE)
     return img
+
 
 class ImageGenerator:
     def __init__(self, save_path):
@@ -46,7 +59,7 @@ class ImageGenerator:
         number = [cv2.resize(number, (28, 42)) for number in self.Number]
         char = [cv2.resize(char1, (30, 42)) for char1 in self.Char1]
         Plate = cv2.resize(self.plate, (260, 55))
-        cnt = 0
+        cnt = 18000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
             label = "1_"
@@ -92,7 +105,7 @@ class ImageGenerator:
             label += self.number_list[rand_int]
             Plate[row:row + 42, col:col + 28, :] = number[rand_int]
             col += 28
-            Plate = random_bright(Plate)
+            Plate = image_refraction(Plate)
             if save:
                 cv2.imwrite(self.save_path + "lastDB/" + str(cnt) + ".jpg", Plate)
                 print("Generate original carplate 2006 : "+self.save_path + "lastDB/" + str(cnt) + ".jpg")
@@ -106,7 +119,7 @@ class ImageGenerator:
         number = [cv2.resize(number, (25, 38)) for number in self.Number]
         char = [cv2.resize(char1, (27, 38)) for char1 in self.Char1]
         Plate = cv2.resize(self.plate, (260, 55))
-        cnt = 2000
+        cnt = 20000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
             label = "1_"
@@ -159,7 +172,7 @@ class ImageGenerator:
             Plate[row:row + 38, col:col + 25, :] = number[rand_int]
             col += 25
 
-            Plate = random_bright(Plate)
+            Plate = image_refraction(Plate)
             if save:
                 cv2.imwrite(self.save_path + "lastDB/" + str(cnt) + ".jpg", Plate)
                 print("Generate original carplate 2019 : "+self.save_path + "lastDB/" + str(cnt) + ".jpg")
@@ -172,7 +185,7 @@ class ImageGenerator:
     def mark_ver2019(self, num, save=False):
         number = [cv2.resize(number, (25, 38)) for number in self.Number]
         char = [cv2.resize(char1, (27, 38)) for char1 in self.Char1]
-        cnt = 4000
+        cnt = 22000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.markPlate, (260, 55))
             label = "1_"
@@ -225,7 +238,7 @@ class ImageGenerator:
             Plate[row:row + 38, col:col + 25, :] = number[rand_int]
             col += 25
 
-            Plate = random_bright(Plate)
+            Plate = image_refraction(Plate)
             if save:
                 cv2.imwrite(self.save_path + "lastDB/" + str(cnt) + ".jpg", Plate)
                 print("Generate original carplate 2019 : "+self.save_path + "lastDB/" + str(cnt) + ".jpg")
@@ -246,10 +259,10 @@ args = parser.parse_args()
 
 
 img_dir = args.img_dir
+print(args)
 imgGenerator = ImageGenerator(img_dir)
 
 num_img = args.num
-print(args)
 Save = args.save
 
 imgGenerator.ver2006(num_img, save=Save)
