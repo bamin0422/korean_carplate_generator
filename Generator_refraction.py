@@ -59,7 +59,7 @@ class ImageGenerator:
         number = [cv2.resize(number, (28, 42)) for number in self.Number]
         char = [cv2.resize(char1, (30, 42)) for char1 in self.Char1]
         Plate = cv2.resize(self.plate, (260, 55))
-        cnt = 18000
+        cnt = 12000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
             label = "1_"
@@ -119,7 +119,7 @@ class ImageGenerator:
         number = [cv2.resize(number, (25, 38)) for number in self.Number]
         char = [cv2.resize(char1, (27, 38)) for char1 in self.Char1]
         Plate = cv2.resize(self.plate, (260, 55))
-        cnt = 20000
+        cnt = 14000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.plate, (260, 55))
             label = "1_"
@@ -185,7 +185,7 @@ class ImageGenerator:
     def mark_ver2019(self, num, save=False):
         number = [cv2.resize(number, (25, 38)) for number in self.Number]
         char = [cv2.resize(char1, (27, 38)) for char1 in self.Char1]
-        cnt = 22000
+        cnt = 16000
         for i, Iter in enumerate(range(num)):
             Plate = cv2.resize(self.markPlate, (260, 55))
             label = "1_"
