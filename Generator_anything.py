@@ -9,7 +9,7 @@ class ImageGenerator:
 
     def anything(self, num, save=False):
 
-        cnt=24000
+        cnt=30000
         for i, Iter in enumerate(range(num)):
             imgName = "000"+str(random.randint(0, 2))+str(random.randint(0, 9))+str(random.randint(0, 9))+str(random.randint(0, 9))+str(random.randint(0, 9))
             anything=cv2.imread("background/"+imgName + ".jpg")
@@ -27,7 +27,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-i", "--img_dir", help="save image directory",
                     type=str, default="./DB/")
 parser.add_argument("-n", "--num", help="number of image",
-                    type=int, default=24000)
+                    type=int, default=30000)
 parser.add_argument("-s", "--save", help="save or imshow",
                     type=bool, default=True)
 args = parser.parse_args()
